@@ -4,11 +4,6 @@ var cheerio = require('cheerio');
 
 var categoryId = [];
 
-async function name(params) {
-    
-}()
-
-
 request('https://www.bankmega.com/promolainnya.php', function (error, response, body) {
   console.log('error:', error); // Print the error if one occurred
   console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
@@ -20,5 +15,15 @@ request('https://www.bankmega.com/promolainnya.php', function (error, response, 
         // console.log(value.attribs.id);
         categoryId.push(value.attribs.id);
     }); 
-    // console.log(test);
+
+    var trimmedBody = body.replace(/\s/g,"").replace(/[\n\t\r]/g,"");
+    // console.log(trimmedBody);
+
+    fs.writeFileSync('outputtrim.txt', trimmedBody);
+
+    var testText = trimmedBody.match(
+        /\$\("#dailyneeds"\).click\(function\(\){\$\("#contentpromolain2"\).load\("ajax.promolainnya.php(\?.[^"]*)/
+    );
+    console.log(testText[1]);
+
 });
